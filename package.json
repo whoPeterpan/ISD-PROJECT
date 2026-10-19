@@ -1,0 +1,6 @@
+{
+  "name":"faculty-app-basic","version":"1.0.0","main":"src/main.js",
+  "scripts":{"start":"electron .","dist":"electron-builder --mac dmg"},
+  "devDependencies":{"electron":"^35.0.0","electron-builder":"^26.0.0"},
+  "build":{"appId":"in.faculty.basicapp","productName":"Faculty App","files":["src/**/*","package.json"],"mac":{"target":"dmg","category":"public.app-category.education"}}
+}

@@ -1,0 +1,1 @@
+const {contextBridge,ipcRenderer}=require('electron');contextBridge.exposeInMainWorld('faculty',{list:()=>ipcRenderer.invoke('list'),add:d=>ipcRenderer.invoke('add',d),pdf:id=>ipcRenderer.invoke('pdf',id)});
