@@ -26,6 +26,15 @@ mainWindow.on('closed', () => {
   mainWindow = null;
 });
 
+// Report the current window state when needed.
+mainWindow.on('maximize', () => {
+  console.log('Faculty Career App window maximized');
+});
+
+mainWindow.on('unmaximize', () => {
+  console.log('Faculty Career App window restored');
+});
+
   if (app.isPackaged) {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   } else {
