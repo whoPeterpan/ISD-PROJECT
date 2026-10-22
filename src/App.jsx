@@ -2,9 +2,38 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 
-// The root component owns navigation state for the dashboard.
+// Each navigation item gets its own page description.
+const pageDetails = {
+  Dashboard: {
+    title: 'Your academic journey, organized.',
+    description: 'Manage your teaching, research, and professional activities from one workspace.',
+    sections: ['Teaching Records', 'Research Records', 'Other Activities'],
+  },
+  'My Profile': {
+    title: 'Your faculty profile',
+    description: 'Keep your professional and academic information organized.',
+    sections: ['Personal Information', 'Department Details', 'Qualifications'],
+  },
+  Teaching: {
+    title: 'Your teaching portfolio',
+    description: 'Organize your courses, lectures, and teaching contributions.',
+    sections: ['Courses', 'Lectures', 'Teaching Materials'],
+  },
+  Research: {
+    title: 'Your research portfolio',
+    description: 'Keep track of publications, projects, and scholarly work.',
+    sections: ['Publications', 'Research Projects', 'Academic Collaborations'],
+  },
+  Activities: {
+    title: 'Your academic activities',
+    description: 'Record seminars, conferences, events, and professional development.',
+    sections: ['Seminars', 'Conferences', 'Professional Development'],
+  },
+};
+
 export default function App() {
   const [activePage, setActivePage] = useState('Dashboard');
+  const page = pageDetails[activePage] || pageDetails.Dashboard;
 
   return (
     <div className="app-shell">
@@ -17,11 +46,8 @@ export default function App() {
           <div className="welcome-card">
             <div>
               <p className="eyebrow">FACULTY SELF-APPRAISAL</p>
-              <h2>Your academic journey, organized.</h2>
-              <p>
-                Manage your teaching, research, and professional activities
-                from one simple workspace.
-              </p>
+              <h2>{page.title}</h2>
+              <p>{page.description}</p>
             </div>
             <div className="welcome-illustration" aria-hidden="true">
               <span>FC</span>
@@ -30,53 +56,45 @@ export default function App() {
 
           <div className="section-heading">
             <div>
-              <h2>Overview</h2>
-              <p>Your faculty workspace at a glance.</p>
+              <h2>{activePage === 'Dashboard' ? 'Overview' : activePage}</h2>
+              <p>
+                {activePage === 'Dashboard'
+                  ? 'Your faculty workspace at a glance.'
+                  : `Explore your ${activePage.toLowerCase()} information.`}
+              </p>
             </div>
           </div>
 
           <div className="stats-grid">
-            <article className="stat-card">
-              <div className="stat-icon blue">▤</div>
-              <p>Teaching Records</p>
-              <strong>0</strong>
-              <span>Records added</span>
-            </article>
-
-            <article className="stat-card">
-              <div className="stat-icon purple">◇</div>
-              <p>Research Records</p>
-              <strong>0</strong>
-              <span>Publications and projects</span>
-            </article>
-
-            <article className="stat-card">
-              <div className="stat-icon orange">✦</div>
-              <p>Other Activities</p>
-              <strong>0</strong>
-              <span>Events and seminars</span>
-            </article>
+            {page.sections.map((section, index) => (
+              <article className="stat-card" key={section}>
+                <div className={`stat-icon ${['blue', 'purple', 'orange'][index % 3]}`}>
+                  {['▤', '◇', '✦'][index % 3]}
+                </div>
+                <p>{section}</p>
+                <strong>0</strong>
+                <span>No records added yet</span>
+              </article>
+            ))}
           </div>
 
           <section className="activity-card">
             <div className="activity-heading">
               <div>
-                <h2>{activePage === 'Dashboard' ? 'Getting started' : activePage}</h2>
-                <p>
-                  {activePage === 'Dashboard'
-                    ? 'Your workspace is ready for your academic records.'
-                    : `The ${activePage.toLowerCase()} section is ready to be developed.`}
-                </p>
+                <h2>Getting started</h2>
+                <p>Build your academic record one section at a time.</p>
               </div>
-              <span className="coming-soon">INITIAL SETUP</span>
+              <span className="coming-soon">IN DEVELOPMENT</span>
             </div>
 
             <div className="empty-state">
               <div className="empty-icon">＋</div>
-              <h3>Start building your faculty record</h3>
+              <h3>{activePage === 'Dashboard'
+                ? 'Welcome to your faculty workspace'
+                : `Start organizing your ${activePage.toLowerCase()}`}</h3>
               <p>
-                This section will let you add and manage your academic
-                information as we develop the app.
+                Record entry and data storage will be added in upcoming steps.
+                Your information is not being saved by these placeholder cards yet.
               </p>
             </div>
           </section>
