@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
 
 function App() {
-  const appInfo = window.facultyApp.getAppInfo();
+  const [appInfo, setAppInfo] = useState(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    window.facultyApp
+      .getAppInfo()
+      .then(setAppInfo)
+      .catch(() => setError('Unable to load application information.'));
+  }, []);
+
+  if (error) {
+    return <main className="welcome">{error}</main>;
+  }
+
+  if (!appInfo) {
+    return <main className="welcome">Loading Faculty Career App...</main>;
+  }
 
   return (
     <main className="welcome">
@@ -15,9 +31,11 @@ function App() {
       </p>
       <div className="status">
         <span className="status-dot" />
-        Electron desktop environment connected
+        Secure Electron bridge connected
       </div>
-      <p className="version">Version {appInfo.version}</p>
+      <p className="version">
+        Version {appInfo.version} · {appInfo.platform}
+      </p>
     </main>
   );
 }

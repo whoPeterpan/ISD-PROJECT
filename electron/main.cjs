@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+
 const path = require('node:path');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -23,6 +24,12 @@ function createWindow() {
     mainWindow.loadURL('http://127.0.0.1:5173');
   }
 }
+
+ipcMain.handle('app:get-info', () => ({
+  name: app.getName(),
+  version: app.getVersion(),
+  platform: process.platform
+}));
 
 app.whenReady().then(() => {
   createWindow();

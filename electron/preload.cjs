@@ -1,8 +1,5 @@
-const { contextBridge } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('facultyApp', {
-  getAppInfo: () => ({
-    name: 'Faculty Career App',
-    version: '1.0.0'
-  })
+  getAppInfo: () => ipcRenderer.invoke('app:get-info')
 });
