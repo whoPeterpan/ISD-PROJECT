@@ -1,9 +1,0 @@
-const {app,BrowserWindow,ipcMain,dialog}=require('electron'),path=require('path'),fs=require('fs');
-const file=()=>path.join(app.getPath('userData'),'records.json');
-function read(){try{return JSON.parse(fs.readFileSync(file(),'utf8'))}catch{return []}}
-function write(x){fs.writeFileSync(file(),JSON.stringify(x,null,2),{mode:0o600})}
-function window(){const w=new BrowserWindow({width:1000,height:760,minWidth:800,minHeight:600,webPreferences:{preload:path.join(__dirname,'preload.js'),contextIsolation:true,nodeIntegration:false}});w.loadFile(path.join(__dirname,'index.html'))}
-app.whenReady().then(window);app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit()});
-ipcMain.handle('list',()=>read());
-ipcMain.handle('add',(_,d)=>{let a=read();a.push({...d,id:Date.now().toString(),submittedAt:new Date().toISOString()});write(a);return true});
-ipcMain.handle('pdf',async(_,id)=>{const r=read().find(x=>x.id===id);if(!r)return;const {filePath,canceled}=await dialog.showSaveDialog({defaultPath:`Appraisal-${r.employeeCode||'faculty'}.pdf`,filters:[{name:'PDF',extensions:['pdf']}]});if(canceled||!filePath)return;const safe=x=>String(x||'—').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const fields=[['Name',r.name],['Employee Code',r.employeeCode],['Department',r.department],['Academic Year',r.year],['Teaching & Lectures',r.teaching],['Publications',r.publications],['Events / Seminars',r.events],['Projects',r.projects],['Submitted',new Date(r.submittedAt).toLocaleString()]];const h='<html><body style="font:14px Arial;padding:30px"><h1>Faculty Self-Appraisal</h1>'+fields.map(([k,v])=>`<p><b>${safe(k)}</b><br>${safe(v)}</p>`).join('')+'</body></html>';const w=new BrowserWindow({show:false});await w.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent(h));try{fs.writeFileSync(filePath,await w.webContents.printToPDF({pageSize:'A4',printBackground:true}))}finally{w.close()}});
