@@ -59,10 +59,11 @@ globalShortcut.register('CommandOrControl+Shift+I', () => {
 });
 
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+  // Reopen the app window if none exists.
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
 });
 
 // Release registered shortcuts when the app exits.
