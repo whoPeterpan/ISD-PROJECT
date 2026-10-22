@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
 import TeachingForm from './components/TeachingForm';
+import ResearchForm from './components/ResearchForm';
 
 const pageDetails = {
   Dashboard: {
@@ -48,6 +49,8 @@ export default function App() {
             <ProfileForm />
           ) : activePage === 'Teaching' ? (
             <TeachingForm />
+          ) : activePage === 'Research' ? (
+            <ResearchForm />
           ) : (
             <>
               <div className="welcome-card">
