@@ -9,17 +9,20 @@ const initialProfile = {
   email: '',
 };
 
-export default function ProfileForm() {
-  const [profile, setProfile] = useState(initialProfile);
+export default function ProfileForm({ profile, onProfileChange }) {
+  const [localProfile, setLocalProfile] = useState(initialProfile);
+  const currentProfile = profile ?? localProfile;
   const [saved, setSaved] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setProfile((current) => ({
-      ...current,
-      [name]: value,
-    }));
+    const update = (current) => ({ ...current, [name]: value });
+    if (onProfileChange) {
+      onProfileChange(update(currentProfile));
+    } else {
+      setLocalProfile(update);
+    }
 
     setSaved(false);
   }
@@ -47,7 +50,7 @@ export default function ProfileForm() {
             Full name
             <input
               name="fullName"
-              value={profile.fullName}
+              value={currentProfile.fullName}
               onChange={handleChange}
               placeholder="Enter your full name"
               required
@@ -58,7 +61,7 @@ export default function ProfileForm() {
             Employee ID
             <input
               name="employeeId"
-              value={profile.employeeId}
+              value={currentProfile.employeeId}
               onChange={handleChange}
               placeholder="Enter employee ID"
               required
@@ -69,7 +72,7 @@ export default function ProfileForm() {
             Department
             <input
               name="department"
-              value={profile.department}
+              value={currentProfile.department}
               onChange={handleChange}
               placeholder="e.g. Computer Science"
               required
@@ -80,7 +83,7 @@ export default function ProfileForm() {
             Designation
             <input
               name="designation"
-              value={profile.designation}
+              value={currentProfile.designation}
               onChange={handleChange}
               placeholder="e.g. Assistant Professor"
               required
@@ -92,7 +95,7 @@ export default function ProfileForm() {
             <input
               name="email"
               type="email"
-              value={profile.email}
+              value={currentProfile.email}
               onChange={handleChange}
               placeholder="name@university.edu"
               required
