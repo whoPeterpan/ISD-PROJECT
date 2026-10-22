@@ -4,6 +4,7 @@ import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
 import TeachingForm from './components/TeachingForm';
 import ResearchForm from './components/ResearchForm';
+import ActivitiesForm from './components/ActivitiesForm';
 
 const pageDetails = {
   Dashboard: {
@@ -51,6 +52,8 @@ export default function App() {
             <TeachingForm />
           ) : activePage === 'Research' ? (
             <ResearchForm />
+          ) : activePage === 'Activities' ? (
+            <ActivitiesForm />
           ) : (
             <>
               <div className="welcome-card">
