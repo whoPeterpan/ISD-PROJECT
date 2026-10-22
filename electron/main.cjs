@@ -2,8 +2,11 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 
+// Keep track of the main application window.
+let mainWindow = null;
+
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 900,
@@ -17,6 +20,11 @@ function createWindow() {
       sandbox: true
     }
   });
+
+  // Clear the reference when the window is closed.
+mainWindow.on('closed', () => {
+  mainWindow = null;
+});
 
   if (app.isPackaged) {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
