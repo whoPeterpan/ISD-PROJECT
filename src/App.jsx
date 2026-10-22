@@ -10,111 +10,120 @@ const pageDetails = {
   Dashboard: {
     title: 'Your academic journey, organized.',
     description: 'Manage your teaching, research, and professional activities from one workspace.',
-    sections: ['Teaching Records', 'Research Records', 'Other Activities'],
   },
   'My Profile': {
     title: 'Your faculty profile',
     description: 'Keep your professional and academic information organized.',
-    sections: ['Personal Information', 'Department Details', 'Qualifications'],
   },
   Teaching: {
     title: 'Your teaching portfolio',
     description: 'Organize your courses, lectures, and teaching contributions.',
-    sections: ['Courses', 'Lectures', 'Teaching Materials'],
   },
   Research: {
     title: 'Your research portfolio',
     description: 'Keep track of publications, projects, and scholarly work.',
-    sections: ['Publications', 'Research Projects', 'Academic Collaborations'],
   },
   Activities: {
     title: 'Your academic activities',
     description: 'Record seminars, conferences, events, and professional development.',
-    sections: ['Seminars', 'Conferences', 'Professional Development'],
   },
 };
+
+const shortcuts = [
+  { title: 'My Profile', description: 'Professional details', icon: '○' },
+  { title: 'Teaching', description: 'Courses and lectures', icon: '▤' },
+  { title: 'Research', description: 'Publications and projects', icon: '◇' },
+  { title: 'Activities', description: 'Seminars and events', icon: '✦' },
+];
 
 export default function App() {
   const [activePage, setActivePage] = useState('Dashboard');
   const page = pageDetails[activePage] || pageDetails.Dashboard;
 
+  function navigateTo(pageName) {
+    setActivePage(pageName);
+  }
+
+  function renderActivePage() {
+    switch (activePage) {
+      case 'My Profile':
+        return <ProfileForm />;
+      case 'Teaching':
+        return <TeachingForm />;
+      case 'Research':
+        return <ResearchForm />;
+      case 'Activities':
+        return <ActivitiesForm />;
+      default:
+        return (
+          <>
+            <div className="welcome-card">
+              <div>
+                <p className="eyebrow">FACULTY SELF-APPRAISAL</p>
+                <h2>{page.title}</h2>
+                <p>{page.description}</p>
+              </div>
+              <div className="welcome-illustration" aria-hidden="true">
+                <span>FC</span>
+              </div>
+            </div>
+
+            <div className="section-heading">
+              <div>
+                <h2>Quick access</h2>
+                <p>Choose a section to manage your academic information.</p>
+              </div>
+            </div>
+
+            <div className="shortcut-grid">
+              {shortcuts.map((shortcut, index) => (
+                <button
+                  type="button"
+                  className="shortcut-card"
+                  key={shortcut.title}
+                  onClick={() => navigateTo(shortcut.title)}
+                >
+                  <span className={`stat-icon ${['blue', 'purple', 'orange', 'blue'][index]}`}>
+                    {shortcut.icon}
+                  </span>
+                  <span className="shortcut-copy">
+                    <strong>{shortcut.title}</strong>
+                    <span>{shortcut.description}</span>
+                  </span>
+                  <span className="shortcut-arrow" aria-hidden="true">→</span>
+                </button>
+              ))}
+            </div>
+
+            <section className="activity-card">
+              <div className="activity-heading">
+                <div>
+                  <h2>Welcome to your workspace</h2>
+                  <p>Your faculty appraisal sections are ready to explore.</p>
+                </div>
+                <span className="coming-soon">OVERVIEW</span>
+              </div>
+              <div className="empty-state">
+                <div className="empty-icon">＋</div>
+                <h3>Build your academic record</h3>
+                <p>
+                  Open a section above to begin entering information.
+                  Record storage and appraisal summaries will be connected in later steps.
+                </p>
+              </div>
+            </section>
+          </>
+        );
+    }
+  }
+
   return (
     <div className="app-shell">
-      <Sidebar activePage={activePage} onNavigate={setActivePage} />
-
+      <Sidebar activePage={activePage} onNavigate={navigateTo} />
       <main className="main-panel">
         <Header title={activePage} />
-
         <section className="page-content">
-          {activePage === 'My Profile' ? (
-            <ProfileForm />
-          ) : activePage === 'Teaching' ? (
-            <TeachingForm />
-          ) : activePage === 'Research' ? (
-            <ResearchForm />
-          ) : activePage === 'Activities' ? (
-            <ActivitiesForm />
-          ) : (
-            <>
-              <div className="welcome-card">
-                <div>
-                  <p className="eyebrow">FACULTY SELF-APPRAISAL</p>
-                  <h2>{page.title}</h2>
-                  <p>{page.description}</p>
-                </div>
-                <div className="welcome-illustration" aria-hidden="true">
-                  <span>FC</span>
-                </div>
-              </div>
-
-              <div className="section-heading">
-                <div>
-                  <h2>{activePage === 'Dashboard' ? 'Overview' : activePage}</h2>
-                  <p>
-                    {activePage === 'Dashboard'
-                      ? 'Your faculty workspace at a glance.'
-                      : `Explore your ${activePage.toLowerCase()} information.`}
-                  </p>
-                </div>
-              </div>
-
-              <div className="stats-grid">
-                {page.sections.map((section, index) => (
-                  <article className="stat-card" key={section}>
-                    <div className={`stat-icon ${['blue', 'purple', 'orange'][index % 3]}`}>
-                      {['▤', '◇', '✦'][index % 3]}
-                    </div>
-                    <p>{section}</p>
-                    <strong>0</strong>
-                    <span>No records added yet</span>
-                  </article>
-                ))}
-              </div>
-
-              <section className="activity-card">
-                <div className="activity-heading">
-                  <div>
-                    <h2>Getting started</h2>
-                    <p>Build your academic record one section at a time.</p>
-                  </div>
-                  <span className="coming-soon">IN DEVELOPMENT</span>
-                </div>
-
-                <div className="empty-state">
-                  <div className="empty-icon">＋</div>
-                  <h3>
-                    {activePage === 'Dashboard'
-                      ? 'Welcome to your faculty workspace'
-                      : `Start organizing your ${activePage.toLowerCase()}`}
-                  </h3>
-                  <p>
-                    Record entry and data storage will be added in upcoming steps.
-                    These overview cards are placeholders, not saved records.
-                  </p>
-                </div>
-              </section>
-            </>
-          )}
+          {renderActivePage()}
         </section>
       </main>
     </div>

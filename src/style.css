@@ -587,3 +587,56 @@ button {
   overflow-wrap: anywhere;
   color: #315ee8 !important;
 }
+
+/* Dashboard shortcuts use buttons so they work with mouse and keyboard. */
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.shortcut-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid #e9edf4;
+  border-radius: 13px;
+  background: #fff;
+  color: #202b3c;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.shortcut-card:hover {
+  border-color: #b9c9ff;
+  transform: translateY(-2px);
+}
+
+.shortcut-copy {
+  display: grid;
+  gap: 6px;
+  flex: 1;
+}
+
+.shortcut-copy strong {
+  font-size: 13px;
+}
+
+.shortcut-copy > span {
+  color: #8a94a6;
+  font-size: 11px;
+}
+
+.shortcut-arrow {
+  color: #315ee8;
+  font-size: 20px;
+}
+
+@media (max-width: 1050px) {
+  .shortcut-grid {
+    grid-template-columns: 1fr;
+  }
+}
