@@ -640,3 +640,16 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* Shared heading layout for future app sections. */
+.reusable-heading {
+  gap: 16px;
+}
+
+.reusable-heading > div {
+  min-width: 0;
+}
+
+.reusable-heading p {
+  line-height: 1.6;
+}
