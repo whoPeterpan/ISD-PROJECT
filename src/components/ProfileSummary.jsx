@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Display a compact summary of the faculty profile.
+// Show a live overview of the faculty member's details.
 export default function ProfileSummary({ profile }) {
   const fullName = profile.fullName.trim();
 

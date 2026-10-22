@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
+import ProfileSummary from './components/ProfileSummary';
 import TeachingForm from './components/TeachingForm';
 import ResearchForm from './components/ResearchForm';
 import ActivitiesForm from './components/ActivitiesForm';
@@ -38,6 +39,13 @@ const shortcuts = [
 
 export default function App() {
   const [activePage, setActivePage] = useState('Dashboard');
+  const [profile, setProfile] = useState({
+    fullName: '',
+    employeeId: '',
+    department: '',
+    designation: '',
+    email: '',
+  });
   const page = pageDetails[activePage] || pageDetails.Dashboard;
 
   function navigateTo(pageName) {
@@ -47,7 +55,15 @@ export default function App() {
   function renderActivePage() {
     switch (activePage) {
       case 'My Profile':
-        return <ProfileForm />;
+        return (
+          <>
+            <ProfileSummary profile={profile} />
+            <ProfileForm
+              profile={profile}
+              onProfileChange={setProfile}
+            />
+          </>
+        );
       case 'Teaching':
         return <TeachingForm />;
       case 'Research':
