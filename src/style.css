@@ -711,3 +711,49 @@ button {
   margin-top: 5px;
   overflow-wrap: anywhere;
 }
+
+.completion-card {
+  margin-bottom: 22px;
+  padding: 22px;
+  border: 1px solid #e9edf4;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.completion-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.completion-heading h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.completion-heading p {
+  margin: 0;
+  color: #8a94a6;
+  font-size: 12px;
+}
+
+.completion-heading > strong {
+  color: #315ee8;
+  font-size: 20px;
+}
+
+.completion-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #edf0f6;
+}
+
+.completion-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #315ee8;
+  transition: width 180ms ease;
+}

@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
 import ProfileSummary from './components/ProfileSummary';
+import ProfileCompletion from './components/ProfileCompletion';
 import TeachingForm from './components/TeachingForm';
 import ResearchForm from './components/ResearchForm';
 import ActivitiesForm from './components/ActivitiesForm';
@@ -57,6 +58,7 @@ export default function App() {
       case 'My Profile':
         return (
           <>
+            <ProfileCompletion profile={profile} />
             <ProfileSummary profile={profile} />
             <ProfileForm
               profile={profile}
