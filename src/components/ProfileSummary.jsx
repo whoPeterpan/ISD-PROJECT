@@ -21,6 +21,9 @@ export default function ProfileSummary({ profile }) {
             ? `Employee ID: ${profile.employeeId}`
             : 'Employee ID not added'}
         </span>
+        <span className="profile-summary-email">
+          {profile.email || 'Institutional email not added'}
+        </span>
       </div>
 
       <span className="coming-soon">PROFILE</span>

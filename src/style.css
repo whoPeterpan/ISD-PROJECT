@@ -705,3 +705,9 @@ button {
     flex-wrap: wrap;
   }
 }
+
+.profile-summary-email {
+  display: block;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
