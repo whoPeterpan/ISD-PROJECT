@@ -1,6 +1,6 @@
 
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('node:path');
-const { app, BrowserWindow, ipcMain } = require('electron');
 
 // Keep track of the main application window.
 let mainWindow = null;
@@ -51,11 +51,23 @@ ipcMain.handle('app:get-info', () => ({
 app.whenReady().then(() => {
   createWindow();
 
+  // Register a shortcut to open developer tools while debugging.
+globalShortcut.register('CommandOrControl+Shift+I', () => {
+  if (mainWindow) {
+    mainWindow.webContents.openDevTools();
+  }
+});
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
+});
+
+// Release registered shortcuts when the app exits.
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
 });
 
 app.on('window-all-closed', () => {
