@@ -113,15 +113,27 @@ export default function ResearchForm() {
         ) : (
           records.map((item) => (
             <article className="record-row" key={item.id}>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.type} · {item.venue} · {item.year}</p>
-                {item.reference && (
-                  <p className="research-reference">{item.reference}</p>
-                )}
-              </div>
-              <span className="record-count">{item.type}</span>
-            </article>
+  <div>
+    <strong>{item.title}</strong>
+    <p>
+      {item.type} · {item.venue} · {item.year}
+    </p>
+    {item.reference && <p>{item.reference}</p>}
+  </div>
+
+  <button
+    type="button"
+    className="delete-button"
+    onClick={() => {
+      setRecords((current) =>
+        current.filter((record) => record.id !== item.id)
+      );
+    }}
+    aria-label={`Delete ${item.title}`}
+  >
+    Delete
+  </button>
+</article>
           ))
         )}
       </div>
