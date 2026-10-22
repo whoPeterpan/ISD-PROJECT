@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
+import TeachingForm from './components/TeachingForm';
 
 const pageDetails = {
   Dashboard: {
@@ -45,6 +46,8 @@ export default function App() {
         <section className="page-content">
           {activePage === 'My Profile' ? (
             <ProfileForm />
+          ) : activePage === 'Teaching' ? (
+            <TeachingForm />
           ) : (
             <>
               <div className="welcome-card">

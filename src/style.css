@@ -521,3 +521,64 @@ button {
     grid-column: auto;
   }
 }
+
+/* Match native selectors to the existing input styling. */
+.form-field select {
+  width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #dfe5ef;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  color: #202b3c;
+  font: inherit;
+  font-weight: 400;
+}
+
+.form-field select:focus {
+  border-color: #4779f4;
+  box-shadow: 0 0 0 3px rgb(71 121 244 / 12%);
+}
+
+.record-list {
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid #edf0f5;
+}
+
+.record-list h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+
+.record-empty {
+  color: #8a94a6;
+  font-size: 12px;
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.record-row strong {
+  font-size: 13px;
+}
+
+.record-row p {
+  margin: 6px 0 0;
+  color: #8a94a6;
+  font-size: 11px;
+}
+
+.record-count {
+  flex-shrink: 0;
+  color: #315ee8;
+  font-size: 11px;
+  font-weight: 700;
+}
