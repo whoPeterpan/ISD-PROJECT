@@ -121,14 +121,29 @@ export default function TeachingForm() {
         ) : (
           records.map((item) => (
             <article className="record-row" key={item.id}>
-              <div>
-                <strong>{item.courseName}</strong>
-                <p>
-                  {item.courseCode} · {item.academicYear} · Semester {item.semester}
-                </p>
-              </div>
-              <span className="record-count">{item.lectures} lectures</span>
-            </article>
+  <div>
+    <strong>{item.courseName}</strong>
+    <p>
+      {item.courseCode} · {item.academicYear} · Semester {item.semester}
+    </p>
+  </div>
+
+  <div className="record-actions">
+    <span className="record-count">{item.lectures} lectures</span>
+    <button
+      type="button"
+      className="delete-button"
+      onClick={() => {
+        setRecords((current) =>
+          current.filter((record) => record.id !== item.id)
+        );
+      }}
+      aria-label={`Delete ${item.courseName}`}
+    >
+      Delete
+    </button>
+  </div>
+</article>
           ))
         )}
       </div>
