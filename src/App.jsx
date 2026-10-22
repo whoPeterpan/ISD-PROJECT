@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import ProfileForm from './components/ProfileForm';
 
-// Each navigation item gets its own page description.
 const pageDetails = {
   Dashboard: {
     title: 'Your academic journey, organized.',
@@ -43,61 +43,69 @@ export default function App() {
         <Header title={activePage} />
 
         <section className="page-content">
-          <div className="welcome-card">
-            <div>
-              <p className="eyebrow">FACULTY SELF-APPRAISAL</p>
-              <h2>{page.title}</h2>
-              <p>{page.description}</p>
-            </div>
-            <div className="welcome-illustration" aria-hidden="true">
-              <span>FC</span>
-            </div>
-          </div>
-
-          <div className="section-heading">
-            <div>
-              <h2>{activePage === 'Dashboard' ? 'Overview' : activePage}</h2>
-              <p>
-                {activePage === 'Dashboard'
-                  ? 'Your faculty workspace at a glance.'
-                  : `Explore your ${activePage.toLowerCase()} information.`}
-              </p>
-            </div>
-          </div>
-
-          <div className="stats-grid">
-            {page.sections.map((section, index) => (
-              <article className="stat-card" key={section}>
-                <div className={`stat-icon ${['blue', 'purple', 'orange'][index % 3]}`}>
-                  {['▤', '◇', '✦'][index % 3]}
+          {activePage === 'My Profile' ? (
+            <ProfileForm />
+          ) : (
+            <>
+              <div className="welcome-card">
+                <div>
+                  <p className="eyebrow">FACULTY SELF-APPRAISAL</p>
+                  <h2>{page.title}</h2>
+                  <p>{page.description}</p>
                 </div>
-                <p>{section}</p>
-                <strong>0</strong>
-                <span>No records added yet</span>
-              </article>
-            ))}
-          </div>
-
-          <section className="activity-card">
-            <div className="activity-heading">
-              <div>
-                <h2>Getting started</h2>
-                <p>Build your academic record one section at a time.</p>
+                <div className="welcome-illustration" aria-hidden="true">
+                  <span>FC</span>
+                </div>
               </div>
-              <span className="coming-soon">IN DEVELOPMENT</span>
-            </div>
 
-            <div className="empty-state">
-              <div className="empty-icon">＋</div>
-              <h3>{activePage === 'Dashboard'
-                ? 'Welcome to your faculty workspace'
-                : `Start organizing your ${activePage.toLowerCase()}`}</h3>
-              <p>
-                Record entry and data storage will be added in upcoming steps.
-                Your information is not being saved by these placeholder cards yet.
-              </p>
-            </div>
-          </section>
+              <div className="section-heading">
+                <div>
+                  <h2>{activePage === 'Dashboard' ? 'Overview' : activePage}</h2>
+                  <p>
+                    {activePage === 'Dashboard'
+                      ? 'Your faculty workspace at a glance.'
+                      : `Explore your ${activePage.toLowerCase()} information.`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="stats-grid">
+                {page.sections.map((section, index) => (
+                  <article className="stat-card" key={section}>
+                    <div className={`stat-icon ${['blue', 'purple', 'orange'][index % 3]}`}>
+                      {['▤', '◇', '✦'][index % 3]}
+                    </div>
+                    <p>{section}</p>
+                    <strong>0</strong>
+                    <span>No records added yet</span>
+                  </article>
+                ))}
+              </div>
+
+              <section className="activity-card">
+                <div className="activity-heading">
+                  <div>
+                    <h2>Getting started</h2>
+                    <p>Build your academic record one section at a time.</p>
+                  </div>
+                  <span className="coming-soon">IN DEVELOPMENT</span>
+                </div>
+
+                <div className="empty-state">
+                  <div className="empty-icon">＋</div>
+                  <h3>
+                    {activePage === 'Dashboard'
+                      ? 'Welcome to your faculty workspace'
+                      : `Start organizing your ${activePage.toLowerCase()}`}
+                  </h3>
+                  <p>
+                    Record entry and data storage will be added in upcoming steps.
+                    These overview cards are placeholders, not saved records.
+                  </p>
+                </div>
+              </section>
+            </>
+          )}
         </section>
       </main>
     </div>

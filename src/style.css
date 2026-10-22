@@ -413,3 +413,111 @@ button {
     font-size: 23px;
   }
 }
+
+/* Shared form styling for faculty data-entry screens. */
+.form-card {
+  margin-top: 24px;
+  padding: 26px;
+  border: 1px solid #e9edf4;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.form-heading h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.form-heading p {
+  margin: 0;
+  color: #8a94a6;
+  font-size: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 21px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: #465268;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.form-field input {
+  width: 100%;
+  min-height: 43px;
+  padding: 11px 12px;
+  border: 1px solid #dfe5ef;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  color: #202b3c;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.form-field input:focus {
+  border-color: #4779f4;
+  box-shadow: 0 0 0 3px rgb(71 121 244 / 12%);
+}
+
+.form-field input::placeholder {
+  color: #a5adbb;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 26px;
+}
+
+.primary-button {
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #315ee8;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #254cc7;
+}
+
+.success-message {
+  margin: 0;
+  color: #16875c;
+  font-size: 12px;
+}
+
+@media (max-width: 950px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+}
