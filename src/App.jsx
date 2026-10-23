@@ -47,6 +47,9 @@ export default function App() {
     designation: '',
     email: '',
   });
+  const [teachingRecords, setTeachingRecords] = useState([]);
+const [researchRecords, setResearchRecords] = useState([]);
+const [activityRecords, setActivityRecords] = useState([]);
   const page = pageDetails[activePage] || pageDetails.Dashboard;
 
   function navigateTo(pageName) {
@@ -67,11 +70,28 @@ export default function App() {
           </>
         );
       case 'Teaching':
-        return <TeachingForm />;
-      case 'Research':
-        return <ResearchForm />;
-      case 'Activities':
-        return <ActivitiesForm />;
+  return (
+    <TeachingForm
+      records={teachingRecords}
+      setRecords={setTeachingRecords}
+    />
+  );
+
+case 'Research':
+  return (
+    <ResearchForm
+      records={researchRecords}
+      setRecords={setResearchRecords}
+    />
+  );
+
+case 'Activities':
+  return (
+    <ActivitiesForm
+      records={activityRecords}
+      setRecords={setActivityRecords}
+    />
+  );
       default:
         return (
           <>

@@ -8,9 +8,8 @@ const emptyRecord = {
   reference: '',
 };
 
-export default function ResearchForm() {
+export default function ResearchForm({ records, setRecords }) {
   const [record, setRecord] = useState(emptyRecord);
-  const [records, setRecords] = useState([]);
 
   function handleChange(event) {
     const { name, value } = event.target;

@@ -8,9 +8,8 @@ const emptyRecord = {
   lectures: '',
 };
 
-export default function TeachingForm() {
+export default function TeachingForm({ records, setRecords }) {
   const [record, setRecord] = useState(emptyRecord);
-  const [records, setRecords] = useState([]);
 
   function handleChange(event) {
     const { name, value } = event.target;
