@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileForm from './components/ProfileForm';
@@ -11,23 +12,28 @@ import ActivitiesForm from './components/ActivitiesForm';
 const pageDetails = {
   Dashboard: {
     title: 'Your academic journey, organized.',
-    description: 'Manage your teaching, research, and professional activities from one workspace.',
+    description:
+      'Manage your teaching, research, and professional activities from one workspace.',
   },
   'My Profile': {
     title: 'Your faculty profile',
-    description: 'Keep your professional and academic information organized.',
+    description:
+      'Keep your professional and academic information organized.',
   },
   Teaching: {
     title: 'Your teaching portfolio',
-    description: 'Organize your courses, lectures, and teaching contributions.',
+    description:
+      'Organize your courses, lectures, and teaching contributions.',
   },
   Research: {
     title: 'Your research portfolio',
-    description: 'Keep track of publications, projects, and scholarly work.',
+    description:
+      'Keep track of publications, projects, and scholarly work.',
   },
   Activities: {
     title: 'Your academic activities',
-    description: 'Record seminars, conferences, events, and professional development.',
+    description:
+      'Record seminars, conferences, events, and professional development.',
   },
 };
 
@@ -38,18 +44,102 @@ const shortcuts = [
   { title: 'Activities', description: 'Seminars and events', icon: '✦' },
 ];
 
+const emptyProfile = {
+  fullName: '',
+  employeeId: '',
+  department: '',
+  designation: '',
+  email: '',
+};
+
 export default function App() {
   const [activePage, setActivePage] = useState('Dashboard');
-  const [profile, setProfile] = useState({
-    fullName: '',
-    employeeId: '',
-    department: '',
-    designation: '',
-    email: '',
-  });
+  const [profile, setProfile] = useState(emptyProfile);
   const [teachingRecords, setTeachingRecords] = useState([]);
-const [researchRecords, setResearchRecords] = useState([]);
-const [activityRecords, setActivityRecords] = useState([]);
+  const [researchRecords, setResearchRecords] = useState([]);
+  const [activityRecords, setActivityRecords] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [storageError, setStorageError] = useState('');
+
+  // Load saved data before enabling automatic saving.
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSavedRecords() {
+      try {
+        const saved = await window.facultyApp.loadRecords();
+
+        if (cancelled) return;
+
+        if (saved && typeof saved === 'object') {
+          setProfile({
+            ...emptyProfile,
+            ...(saved.profile || {}),
+          });
+          setTeachingRecords(
+            Array.isArray(saved.teaching) ? saved.teaching : []
+          );
+          setResearchRecords(
+            Array.isArray(saved.research) ? saved.research : []
+          );
+          setActivityRecords(
+            Array.isArray(saved.activities) ? saved.activities : []
+          );
+        }
+      } catch (error) {
+        console.error('Could not load saved faculty data:', error);
+
+        if (!cancelled) {
+          setStorageError('Saved data could not be loaded.');
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoaded(true);
+        }
+      }
+    }
+
+    if (window.facultyApp?.loadRecords) {
+      loadSavedRecords();
+    } else {
+      setStorageError('Local storage is unavailable in this environment.');
+      setIsLoaded(true);
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Save shared state whenever faculty data changes after loading.
+  useEffect(() => {
+    if (!isLoaded || !window.facultyApp?.saveRecords) return;
+
+    async function saveCurrentRecords() {
+      try {
+        await window.facultyApp.saveRecords({
+          profile,
+          teaching: teachingRecords,
+          research: researchRecords,
+          activities: activityRecords,
+        });
+
+        setStorageError('');
+      } catch (error) {
+        console.error('Could not save faculty data:', error);
+        setStorageError('Changes could not be saved locally.');
+      }
+    }
+
+    saveCurrentRecords();
+  }, [
+    isLoaded,
+    profile,
+    teachingRecords,
+    researchRecords,
+    activityRecords,
+  ]);
+
   const page = pageDetails[activePage] || pageDetails.Dashboard;
 
   function navigateTo(pageName) {
@@ -69,29 +159,31 @@ const [activityRecords, setActivityRecords] = useState([]);
             />
           </>
         );
+
       case 'Teaching':
-  return (
-    <TeachingForm
-      records={teachingRecords}
-      setRecords={setTeachingRecords}
-    />
-  );
+        return (
+          <TeachingForm
+            records={teachingRecords}
+            setRecords={setTeachingRecords}
+          />
+        );
 
-case 'Research':
-  return (
-    <ResearchForm
-      records={researchRecords}
-      setRecords={setResearchRecords}
-    />
-  );
+      case 'Research':
+        return (
+          <ResearchForm
+            records={researchRecords}
+            setRecords={setResearchRecords}
+          />
+        );
 
-case 'Activities':
-  return (
-    <ActivitiesForm
-      records={activityRecords}
-      setRecords={setActivityRecords}
-    />
-  );
+      case 'Activities':
+        return (
+          <ActivitiesForm
+            records={activityRecords}
+            setRecords={setActivityRecords}
+          />
+        );
+
       default:
         return (
           <>
@@ -121,14 +213,20 @@ case 'Activities':
                   key={shortcut.title}
                   onClick={() => navigateTo(shortcut.title)}
                 >
-                  <span className={`stat-icon ${['blue', 'purple', 'orange', 'blue'][index]}`}>
+                  <span
+                    className={`stat-icon ${
+                      ['blue', 'purple', 'orange', 'blue'][index]
+                    }`}
+                  >
                     {shortcut.icon}
                   </span>
                   <span className="shortcut-copy">
                     <strong>{shortcut.title}</strong>
                     <span>{shortcut.description}</span>
                   </span>
-                  <span className="shortcut-arrow" aria-hidden="true">→</span>
+                  <span className="shortcut-arrow" aria-hidden="true">
+                    →
+                  </span>
                 </button>
               ))}
             </div>
@@ -137,7 +235,9 @@ case 'Activities':
               <div className="activity-heading">
                 <div>
                   <h2>Welcome to your workspace</h2>
-                  <p>Your faculty appraisal sections are ready to explore.</p>
+                  <p>
+                    Your faculty appraisal sections are ready to explore.
+                  </p>
                 </div>
                 <span className="coming-soon">OVERVIEW</span>
               </div>
@@ -146,7 +246,7 @@ case 'Activities':
                 <h3>Build your academic record</h3>
                 <p>
                   Open a section above to begin entering information.
-                  Record storage and appraisal summaries will be connected in later steps.
+                  Your information is saved locally on this device.
                 </p>
               </div>
             </section>
@@ -161,7 +261,16 @@ case 'Activities':
       <main className="main-panel">
         <Header title={activePage} />
         <section className="page-content">
-          {renderActivePage()}
+          {storageError && (
+            <p role="alert" className="storage-warning">
+              {storageError}
+            </p>
+          )}
+          {!isLoaded ? (
+            <p role="status">Loading your saved faculty data...</p>
+          ) : (
+            renderActivePage()
+          )}
         </section>
       </main>
     </div>
