@@ -60,6 +60,7 @@ export default function App() {
   const [activityRecords, setActivityRecords] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [storageError, setStorageError] = useState('');
+  const [saveStatus, setSaveStatus] = useState('loading');
 
   // Load saved data before enabling automatic saving.
   useEffect(() => {
@@ -117,20 +118,22 @@ export default function App() {
 
     async function saveCurrentRecords() {
       try {
-        await window.facultyApp.saveRecords({
-          profile,
-          teaching: teachingRecords,
-          research: researchRecords,
-          activities: activityRecords,
-        });
+  await window.facultyApp.saveRecords({
+    profile,
+    teaching: teachingRecords,
+    research: researchRecords,
+    activities: activityRecords,
+  });
 
-        setStorageError('');
-      } catch (error) {
-        console.error('Could not save faculty data:', error);
-        setStorageError('Changes could not be saved locally.');
-      }
+  setStorageError('');
+  setSaveStatus('saved');
+} catch (error) {
+  console.error('Could not save faculty data:', error);
+  setStorageError('Changes could not be saved locally.');
+  setSaveStatus('error');
+}
     }
-
+setSaveStatus('saving');
     saveCurrentRecords();
   }, [
     isLoaded,
@@ -259,7 +262,20 @@ export default function App() {
     <div className="app-shell">
       <Sidebar activePage={activePage} onNavigate={navigateTo} />
       <main className="main-panel">
-        <Header title={activePage} />
+        <div className="app-header-area">
+  <Header title={activePage} />
+
+  <p
+    className={`save-status save-status-${saveStatus}`}
+    role="status"
+    aria-live="polite"
+  >
+    {saveStatus === 'loading' && 'Loading saved data…'}
+    {saveStatus === 'saving' && 'Saving changes…'}
+    {saveStatus === 'saved' && '✓ Saved locally'}
+    {saveStatus === 'error' && 'Save failed'}
+  </p>
+</div>
         <section className="page-content">
           {storageError && (
             <p role="alert" className="storage-warning">

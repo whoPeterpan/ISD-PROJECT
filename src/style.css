@@ -783,3 +783,23 @@ button {
   outline: 2px solid #b42318;
   outline-offset: 2px;
 }
+
+.app-header-area {
+  position: relative;
+}
+
+.save-status {
+  margin: 0;
+  padding: 0 24px 10px;
+  font-size: 12px;
+  text-align: right;
+  color: #64748b;
+}
+
+.save-status-saved {
+  color: #15803d;
+}
+
+.save-status-error {
+  color: #b42318;
+}
