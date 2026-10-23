@@ -111,13 +111,28 @@ export default function ActivitiesForm() {
           <p className="record-empty">Your academic activities will appear here.</p>
         ) : (
           records.map((item) => (
-            <article className="record-row" key={item.id}>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.type} · {item.organizer} · {item.date}</p>
-              </div>
-              <span className="record-count">{item.role}</span>
-            </article>
+           <article className="record-row" key={item.id}>
+  <div>
+    <strong>{item.title}</strong>
+    <p>
+      {item.type} · {item.organizer} · {item.date}
+    </p>
+    <p>Role: {item.role}</p>
+  </div>
+
+  <button
+    type="button"
+    className="delete-button"
+    onClick={() => {
+      setRecords((current) =>
+        current.filter((record) => record.id !== item.id)
+      );
+    }}
+    aria-label={`Delete ${item.title}`}
+  >
+    Delete
+  </button>
+</article>
           ))
         )}
       </div>
