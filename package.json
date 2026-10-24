@@ -1,3 +1,4 @@
+
 {
   "name": "faculty-career-app",
   "version": "1.0.0",
@@ -7,7 +8,8 @@
   "scripts": {
     "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
     "build": "vite build",
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "npm run build && electron-builder --mac"
   },
   "dependencies": {
     "react": "^19.3.1",
@@ -20,5 +22,23 @@
     "electron-builder": "^26.15.3",
     "vite": "^8.3.5",
     "wait-on": "^9.5.1"
+  },
+  "build": {
+    "appId": "com.facultycareer.app",
+    "productName": "Faculty Career App",
+    "directories": {
+      "output": "release"
+    },
+    "compression": "maximum",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.education"
+    }
   }
 }
