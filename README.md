@@ -1,10 +1,10 @@
-# Faculty Career App
+# FacultyCore
 
 A lightweight Electron desktop application for organizing faculty self-appraisal and academic career records.
 
 ## Overview
 
-Faculty Career App provides a single workspace for maintaining professional profile details, teaching contributions, research records, and academic activities. It is built with React and Electron as a desktop application.
+FacultyCore App provides a single workspace for maintaining professional profile details, teaching contributions, research records, and academic activities. It is built with React and Electron as a desktop application.
 
 The project demonstrates desktop application development, reusable React components, state management, inter-process communication, and local data persistence.
 
